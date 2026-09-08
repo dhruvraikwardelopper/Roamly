@@ -1,27 +1,78 @@
 <% layout('./layouts/boilerplate.ejs') %>
 
 <body>
-    <h3>You are editing this listing : <b><i><%= listing.title %></i></b></h3>
-
-    <form method="post" action="/listings/<%= listing._id %>?_method=PUT">
-        <input type="text" name="listing[title]" value="<%= listing.title  %>"/>
-        <br>
-        <br>
-        <textarea name="listing[description]" ><%= listing.description  %></textarea>
-        <br>
-        <br>
-        <input type="number" name="listing[price]" value="<%= listing.price  %>"/>
-        <br>
-        <br>
-        <input type="text" name="listing[image]" value="<%= listing.image  %>"/>
-        <br>
-        <br>
-        <input type="text" name="listing[location]" value="<%= listing.location  %>"/>
-        <br>
-        <br>
-        <input type="text" name="listing[country]" value="<%= listing.country  %>"/>
-        <br>
-        <br>
-        <button>Edit</button>
-    </form>
+  
+  <div class="row ">
+    <div class="col-8 offset-2">
+      <h4 class="fw-light">
+        You are editing this listing : <b class="fst-italic fw-semibold fs-3"><%= listing.title %></b>
+      </h4>
+      <br />
+      <form method="post" action="/listings/<%= listing._id  %>?_method=PUT">
+        <div class="mb-3">
+          <label for="title" class="form-label">Title : </label>
+          <input
+            type="text"
+            name="listing[title]"
+            class="form-control"
+            value="<%= listing.title  %>"
+          />
+        </div>
+        <div class="mb-3">
+          <label for="description" class="form-label">Description : </label>
+          <textarea name="listing[description]" class="form-control">
+            <%= listing.description  %></textarea>
+        </div>
+        <div class="row">
+          <div class="col-md-4 mb-3">
+            <label for="price" class="form-label">Price : </label>
+            <input
+              type="number"
+              name="listing[price]"
+              class="form-control"
+              placeholder="Ex- 1200"
+              value="<%= listing.price  %>"
+            />
+          </div>
+          <div class="col-md-8 mb-3">
+            <label for="country" class="form-label">Country : </label>
+            <input
+              type="text"
+              name="listing[country]"
+              class="form-control"
+              placeholder="Ex- India"
+              value="<%= listing.country  %>"
+            />
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="image" class="form-label">Image : </label>
+          <input
+            type="text"
+            name="listing[image]"
+            class="form-control"
+            placeholder="Enter Image URL/Link"
+            value="<%= listing.image  %>"
+          />
+        </div>
+        <div class="mb-3">
+          <label for="location" class="form-label">Location : </label>
+          <input
+            type="text"
+            name="listing[location]"
+            class="form-control"
+            placeholder="Ex- Banda"
+            value="<%= listing.location  %>"
+          />
+        </div>
+        <br />
+        <br />
+        <div class="btn-add-p">
+          <button type="submit" class="btn btn-success edit-btn">
+            Edit Listing
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
 </body>
