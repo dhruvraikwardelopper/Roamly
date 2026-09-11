@@ -10,7 +10,8 @@ const listingSchema = new Schema({
     },
     image:{
         type:String,
-        set:(v)=>v===" "?"https://cdnb.artstation.com/p/marketplace/presentation_assets/003/430/265/large/file.jpg?1706950304":v
+        default:"https://static-cse.canva.com/blob/996499/Sanstitre.jpg",
+        set:(v)=>v===" "?"https://static-cse.canva.com/blob/996499/Sanstitre.jpg":v
     },
     price:{
         type:Number,
