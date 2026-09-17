@@ -16,9 +16,10 @@
     </head>
 <body>
     <%- include("../includes/navbar.ejs") %>
-
     <h1>Roamly</h1>
-    <div class="container"><%-body-%></div>
+    <div class="container">
+    <%- include("../includes/flash.ejs") %>
+        <%-body-%></div>
 
 
     <%- include("../includes/footer.ejs") -%>

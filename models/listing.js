@@ -12,7 +12,7 @@ const listingSchema = new Schema({
     image:{
         type:String,
         default:"https://static-cse.canva.com/blob/996499/Sanstitre.jpg",
-        set:(v)=>v===" "?"https://static-cse.canva.com/blob/996499/Sanstitre.jpg":v
+        set:(v)=>v===""?"https://static-cse.canva.com/blob/996499/Sanstitre.jpg":v
     },
     price:{
         type:Number,
@@ -29,7 +29,11 @@ const listingSchema = new Schema({
             type:Schema.Types.ObjectId,
             ref:"Review"
         }
-    ]
+    ],
+    owner : {
+        type:Schema.Types.ObjectId,
+        ref:"User",
+    }
 });
 
 listingSchema.post("findOneAndDelete",async(listing)=>{

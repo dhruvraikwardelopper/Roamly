@@ -18,6 +18,12 @@
               <b class="fs-4 fw-semibold">
                 <%= listing.title %>
               </b><br />
+              <span class="fs-5 text-primary">
+                Owner : <i>
+                  <%= listing.owner.username %>
+                </i>
+              </span>
+              <br />
               <span>
                 <%= listing.description %>
               </span>
@@ -31,58 +37,203 @@
             </span>
           </div>
         </div>
-
-        <div class="btns">
-          <a href="/listings/<%= listing._id %>/edit" class="btn btn-dark col-2  edit-btn">Edit</a>
-          <form method="POST" action="/listings/<%= listing._id %>?_method=DELETE">
-            <button class="btn btn-dark margin-right-3">Delete</button>
-          </form>
-        </div>
+        <% if(currUser && currUser._id.equals(listing.owner._id)){ %>
+          <div class="btns">
+            <a href="/listings/<%= listing._id %>/edit" class="btn btn-dark col-2  edit-btn">Edit</a>
+            <form method="POST" action="/listings/<%= listing._id %>?_method=DELETE">
+              <button class="btn btn-dark margin-right-3">Delete</button>
+            </form>
+          </div>
+          <% } %>
       </div>
       <div class="row">
         <div class="col offset-2 col-8">
-          <h4> Rate this Listing</h4>
-          <form class="mt-3 mb-3 needs-validation " method="post" action="/listings/<%= listing._id %>/reviews"
-            novalidate>
-            <div class="mb-3">
-              <label class="form-label" for="rating">Rating</label>
-              <input type="range" class="form-range" min="1" max="5" id="rating" name="review[rating]">
-            </div>
-            <div class="mb-3">
-              <label class="form-label" for="comment">Comment</label>
-              <textarea class="form-control" name="review[comment]" id="comment" required></textarea>
-              <div class="invalid-feedback">Please leave a comment</div>
-            </div>
-            <button class="btn btn-outline-dark">Add Rating</button>
-          </form>
-
+          <% if(currUser) {%>
+            <h4> Rate this Listing</h4>
+            <form class="mt-3 mb-3 needs-validation " method="post" action="/listings/<%= listing._id %>/reviews"
+              novalidate>
+              <div class="mb-3">
+                <label class="form-label" for="rating">Rating</label>
+                <input type="range" class="form-range" min="1" max="5" id="rating" name="review[rating]">
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="comment">Comment</label>
+                <textarea class="form-control" name="review[comment]" id="comment" required></textarea>
+                <div class="invalid-feedback">Please leave a comment</div>
+              </div>
+              <button class="btn btn-outline-dark">Add Rating</button>
+            </form>
+            <% } %>
         </div>
       </div>
       <hr />
       <div class="row">
-        <div class=" offset-2 col-8">
-          <h1> All Review</h1>
-          <!-- Review  Section  -->
+        <div class="offset-2 col-8">
+
+          <h5 class="mb-4 fw-semibold text-dark mb-4">All Reviews</h5>
+
+          <!-- Review Section -->
           <div class="row offset-1">
-            <% for(review of listing.reviews) {%>
-              <div class="card  col-5 ms-3 ">
-                <div class="card-body">
-                  <h5 class="user">jon dee</h5>
-                  <p class="card-text">
+
+            <% for(review of listing.reviews) { %>
+
+              <div class="card col-5 ms-3 mb-4 shadow-sm border-0 rounded-4">
+
+                <div class="card-body p-4">
+
+                  <div class="d-flex align-items-center">
+
+                    <h6 class="user fw-lighter"  style="font-size: 14px;">
+                      Added by:
+                     <i class="fw-semibold"> @<%= review.author.username %></i>
+                    </h6>
+
+                    <div class="dropdown ms-auto">
+
+                      <button class="btn p-0 border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+
+                        <i class="fa-solid fa-ellipsis-vertical"></i>
+
+                      </button>
+
+                      <ul class="dropdown-menu shadow-sm">
+
+                        <li>
+                          <form class="dropdown-item p-0 m-0" method="post"
+                            action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE">
+
+                            <button class="btn dropdown-item p-0 m-0">
+                              Delete
+                            </button>
+
+                          </form>
+                        </li>
+
+                        <li>
+
+                          <a class="dropdown-item" href="#" data-bs-toggle="modal"
+                            data-bs-target="#editReviewModal<%= review._id %>">
+
+                            Edit
+
+                          </a>
+
+                        </li>
+
+                      </ul>
+
+                    </div>
+
+                  </div>
+
+
+                  <h6 class="card-text mt-1 mb-2 text-secondary">
+
+                    <%= review.rating %> Stars
+
+                  </h6>
+
+
+                  <p class="card-text mb-0 text-dark">
+
                     <%= review.comment %>
+
                   </p>
-                  <p class="card-text">
-                    <%=review.rating %> Stars
-                  </p>
+
                 </div>
-                <form class="mb-3" method="post" action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE">
-                  <button class=" btn btn-dark">Delete this Review</button>
-                </form>
+
+
+                <!-- Edit Review Modal -->
+
+                <div class="modal fade" id="editReviewModal<%= review._id %>" tabindex="-1"
+                  aria-labelledby="editReviewLabel<%= review._id %>" aria-hidden="true">
+
+                  <div class="modal-dialog">
+
+                    <div class="modal-content">
+
+                      <div class="modal-header">
+
+                        <h5 class="modal-title" id="editReviewLabel<%= review._id %>">
+
+                          Edit Review
+
+                        </h5>
+
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        </button>
+
+                      </div>
+
+
+                      <form method="POST" action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=PUT">
+
+                        <div class="modal-body">
+
+                          <!-- Rating -->
+
+                          <div class="mb-3">
+
+                            <label for="rating<%= review._id %>" class="form-label">
+
+                              Rating
+
+                            </label>
+
+                            <input type="range" class="form-range" min="1" max="5" id="rating<%= review._id %>"
+                              name="review[rating]" value="<%= review.rating %>">
+
+                          </div>
+
+
+                          <!-- Comment -->
+
+                          <div class="mb-3">
+
+                            <label for="comment<%= review._id %>" class="form-label">
+
+                              Comment
+
+                            </label>
+
+                            <textarea class="form-control" id="comment<%= review._id %>" name="review[comment]"
+                              rows="4"><%= review.comment %></textarea>
+
+                          </div>
+
+                        </div>
+
+
+                        <div class="modal-footer">
+
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+
+                            Cancel
+
+                          </button>
+
+                          <button type="submit" class="btn btn-dark">
+
+                            Update Review
+
+                          </button>
+
+                        </div>
+
+                      </form>
+
+                    </div>
+
+                  </div>
+
+                </div>
+
               </div>
 
-
               <% } %>
+
           </div>
+
         </div>
       </div>
     </div>
