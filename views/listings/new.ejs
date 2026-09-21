@@ -4,7 +4,7 @@
   <div class="col-8 offset-2">
     <h3 class="text-center"><u>Create new listing </u></h3>
     <br />
-    <form method="post" class="needs-validation" action="/listings" novalidate>
+    <form method="post" class="needs-validation" action="/listings" novalidate enctype="multipart/form-data">
       <div class="mb-3">
         <label for="title" class="form-label">Title : </label>
         <input
@@ -56,7 +56,7 @@
       </div>
 
         </div>
-          <div class="mb-3">
+          <!-- <div class="mb-3">
         <label for="image" class="form-label">Image : </label>
         <input
           type="text"
@@ -68,7 +68,25 @@
          <div class="invalid-feedback">
          Enter a vaild URL
         </div>
+      </div> -->
+
+
+      <!-- Manipulating the fomr data  -->
+         <div class="mb-3">
+        <label for="image" class="form-label">Choose an image : </label>
+        <input
+          type="file"
+          name="listing[image]"
+          class="form-control"
+          required
+        />
+         <div class="invalid-feedback">
+         Enter a vaild URL
+        </div>
       </div>
+
+
+
        <div class="mb-3">
         <label for="location" class="form-label">Location : </label>
         <input

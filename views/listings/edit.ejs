@@ -8,7 +8,7 @@
         You are editing this listing : <b class="fst-italic fw-semibold fs-3"><%= listing.title %></b>
       </h4>
       <br />
-      <form method="post" action="/listings/<%= listing._id  %>?_method=PUT" novalidate class="needs-validation">
+      <form method="post" action="/listings/<%= listing._id  %>?_method=PUT" novalidate class="needs-validation" enctype="multipart/form-data">
         <div class="mb-3">
           <label for="title" class="form-label">Title : </label>
           <input
@@ -64,21 +64,20 @@
           </div>
           </div>
         </div>
-        <div class="mb-3">
-          <label for="image" class="form-label">Image : </label>
-          <input
-            type="text"
-            name="listing[image]"
-            class="form-control"
-            placeholder="Enter Image URL/Link"
-            value="<%= listing.image  %>"
-            required
-
-          />
-          <div class="invalid-feedback">
-            This feild can't be empty
-          </div>
+        <div class="mb-3 ">
+          Original Image <br>
+              <img src="<%= OriginalUrl %>" style="height: 100px; width: 150px;">
         </div>
+        <div class="mb-3">
+            
+        <label for="image" class="form-label">Choose an image : </label>
+        <input
+          type="file"
+          name="listing[image]"
+          class="form-control"
+        />
+       
+      </div>
         <div class="mb-3">
           <label for="location" class="form-label">Location : </label>
           <input
