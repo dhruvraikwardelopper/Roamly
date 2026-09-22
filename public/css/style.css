@@ -253,3 +253,6 @@ body {
   padding: .5rem 3rem !important;
   border-radius:30px !important;
 }
+.tax-info{
+  display: none;
+}
