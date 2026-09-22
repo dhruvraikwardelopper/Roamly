@@ -10,11 +10,14 @@ const listings = require("./routes/listing.js");
 const review = require("./routes/review.js");
 const user = require("./routes/user.js");
 const session = require("express-session");
+const MongoStore = require('connect-mongo').default;
 const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const User = require("./models/user.js");
 
+
+const dbUrl = process.env.ATLASDB_URL
 // override with POST having ?_method=DELETE
 const PORT = 8080;
 app.engine("ejs", ejsMate);
@@ -28,20 +31,37 @@ main()
   .then(() => {
     console.log("Connection done");
   })
-  .catch(() => {
+  .catch((err) => {
     console.log(err);
   });
 
 async function main() {
-  await mongoose.connect("mongodb://127.0.0.1:27017/roamly");
+  await mongoose.connect(dbUrl);
 }
 
 // app.get("/", (req, res) => {
 //   res.send("working");
 // });
 
+
+
+//Creating new session so that session info stored inn the mongodb Atlas
+const store = MongoStore.create({
+  mongoUrl: dbUrl,
+  crypto:{
+    secret:"mysuperkey",
+  },
+  touchAfter: 24*3600,
+})
+
+store.on("error",()=>{
+  console.log("ERROR on MONGO Session Store",err);
+})
+
+
 //iniliaing the session option for session
 const sessionOption = session({
+  store,
   secret: "mysuperkey",
   resave: false,
   saveUninitialized: true,
@@ -52,6 +72,10 @@ const sessionOption = session({
     httpOnly: true,
   },
 });
+
+
+
+
 //applying the sesstion in the app;
 app.use(sessionOption);
 app.use(flash());
