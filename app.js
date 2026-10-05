@@ -29,7 +29,7 @@ app.use(express.static(path.join(__dirname, "/public")));
 app.use(express.urlencoded({ extended: true }));
 main()
   .then(() => {
-    console.log("Connection done");
+    console.log("Connected to the database");
   })
   .catch((err) => {
     console.log(err);
@@ -124,5 +124,5 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(PORT, () => {
-  console.log("done");
+  console.log("Server is running ");
 });

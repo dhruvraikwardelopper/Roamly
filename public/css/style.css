@@ -220,12 +220,12 @@ body {
   display: flex !important;
   padding: 2px;
   align-self: center;
-  background-color: #ffc7c7 !important;
+  background-color: #997676 !important;
   width: 20px;
   height: 20px;
   border-radius: 50%;
   margin-top: 15px;
-  box-shadow: 0 0 30px 10px rgb(235, 19, 73) !important;
+  box-shadow: 0 0 30px 10px rgb(56, 31, 37) !important;
   z-index: 100 !important;
 }
 
@@ -242,6 +242,8 @@ body {
   font-size: 18px;
   font-weight: bold;
 }
+
+
 
 .text-end {
   width: 245px;
